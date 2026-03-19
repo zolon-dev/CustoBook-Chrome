@@ -4,7 +4,15 @@
   "version": "0.0.1",
   "description": "あらゆるウェブ小説サイトを統一レイアウトで読めるプラグイン型ウェブ小説リーダー",
   "permissions": [
-    "storage"
+    "storage",
+    "scripting"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
   ],
   "action": {
     "default_title": "メニュー",

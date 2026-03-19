@@ -22,35 +22,22 @@ document.addEventListener("DOMContentLoaded", () => {
             // JSONとして解析
             const data = await response.json();
 
-            // ストレージ保存
-
             // キーとなるドメインの存在チェック
             if (!data["text_domain"]) {
                 throw new Error("JSONにtext_domainが定義されていません");
             }
 
-            const domainkey = data["text_domain"]; // キーとして
-
-            // 現在のルールJSONを取得
-            chrome.storage.local.get(["CustoBook_Rules"], (result) => {
-                let rules = result.CustoBook_Rules || {}; // 新規作成だったら空リスト追加
-
-                // ドメインをキーにしてデータを格納
-                // 既存ドメインであれば上書き、新規なら追加
-                rules[domainkey] = {
-                    "site_name": data["site_name"] || "名称未設定",
-                    ...data // すべての内容を展開
-                };
-
-                // ストレージに保存
-                chrome.storage.local.set({"CustoBook_Rules": rules }, () => {
-                    if (chrome.runtime.lastError) {
-                        alert("エラー: " + chrome.runtime.lastError.message);
-                    } else {
-                        alert("登録が完了しました"); // 登録完了
-                        window.close(); // 閉じる
-                    }
-                });
+            // Service Workerにストレージ保存とドメイン登録を任せる
+            chrome.runtime.sendMessage({
+                type: "SAVE_AND_REGISTER",
+                payload: data
+            }, (response) => { // SWから返事
+                if (response?.status === "success") {
+                    alert("登録が完了しました"); // 登録完了
+                    window.close(); // 閉じる
+                } else {
+                    alert("エラーが発生しました: " + (response?.error || "不明なエラー"));
+                }
             });
         } catch (error) {
             console.error("エラーが発生しました：", error);
