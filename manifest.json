@@ -3,6 +3,9 @@
   "name": "CustoBook for Chrome",
   "version": "0.0.1",
   "description": "あらゆるウェブ小説サイトを統一レイアウトで読めるプラグイン型ウェブ小説リーダー",
+  "permissions": [
+    "storage"
+  ],
   "action": {
     "default_title": "メニュー",
     "default_popup": "popup.html"
