@@ -22,9 +22,36 @@ document.addEventListener("DOMContentLoaded", () => {
             // JSONとして解析
             const data = await response.json();
 
-            alert("登録が完了しました"); // 登録完了
-            window.close(); // 閉じる
+            // ストレージ保存
 
+            // キーとなるドメインの存在チェック
+            if (!data["text_domain"]) {
+                throw new Error("JSONにtext_domainが定義されていません");
+            }
+
+            const domainkey = data["text_domain"]; // キーとして
+
+            // 現在のルールJSONを取得
+            chrome.storage.local.get(["CustoBook_Rules"], (result) => {
+                let rules = result.CustoBook_Rules || {}; // 新規作成だったら空リスト追加
+
+                // ドメインをキーにしてデータを格納
+                // 既存ドメインであれば上書き、新規なら追加
+                rules[domainkey] = {
+                    "site_name": data["site_name"] || "名称未設定",
+                    ...data // すべての内容を展開
+                };
+
+                // ストレージに保存
+                chrome.storage.local.set({"CustoBook_Rules": rules }, () => {
+                    if (chrome.runtime.lastError) {
+                        alert("エラー: " + chrome.runtime.lastError.message);
+                    } else {
+                        alert("登録が完了しました"); // 登録完了
+                        window.close(); // 閉じる
+                    }
+                });
+            });
         } catch (error) {
             console.error("エラーが発生しました：", error);
             alert("エラーが発生しました。\n" + error.message);
