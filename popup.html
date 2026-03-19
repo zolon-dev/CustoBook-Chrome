@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        width: 350px;
+        padding: 15px;
+        gap: 12px;
+        display: flex;
+        flex-direction: column;
+      }
+      /* 入力エリア */
+      .input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+      }
+      input {
+        padding: 10px;
+        border: 1px solid #000000;
+        border-radius: 5px;
+        font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      input:focus {
+        outline: none;
+      }
+      /* ボタングループ */
+      .button-group {
+        display: flex;
+        gap: 10px;
+      }
+      button {
+        flex: 1;
+        padding: 10px 5px;
+        border: 1px solid #000000;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #eee;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="input-group">
+        <input type="text" placeholder="ここにJSONファイルのURL貼り付け">
+    </div>
+
+    <div class="button-group">
+        <button>登録</button>
+        <button>ヘルプ</button>
+        <button>設定</button>
+    </div>
+  </body>
+</html>

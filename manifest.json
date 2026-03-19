@@ -1,5 +1,11 @@
 {
-    "manifest_version": 3,
-    "name":"CustoBook for Chrome",
-    "version":"0.0.1"
+  "manifest_version": 3,
+  "name": "CustoBook for Chrome",
+  "version": "0.0.1",
+  "description": "あらゆるウェブ小説サイトを統一レイアウトで読めるプラグイン型ウェブ小説リーダー",
+  "action": {
+    "default_title": "メニュー",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html"
 }
