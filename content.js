@@ -93,11 +93,64 @@
             } else if (currentPage.type == "episode") {
                 const subTitle = root.querySelector(currentPage.selector_subtitle)?.innerText.trim();
                 console.log("サブタイトル: " + subTitle);
-                const contentEl = root.querySelector(currentPage.selector_content);
-                const bodyText = contentEl ? contentEl.innerText.trim() : "本文なし";
+
+                // Pタグ除去関数
+                const getLines = (selector) => {
+                    const el = root.querySelector(selector);
+                    if (!el) return "";
+
+                    // Pタグをループして1行ずつの配列にし、\nで繋ぐ
+                    return Array.from(el.querySelectorAll('p')).map(p => {
+                        const html = p.innerHTML.trim();
+                        return (html === '<br>' || html === '<br />') ? "" : html;
+                    }).join("\n");
+                };
+
+                // 前書き
+                const prefaceText = getLines(currentPage.selector_content_preface);
+                if (prefaceText != "") { console.log("前書き: " + prefaceText); }
+
+                // 本文
+                const bodyText = getLines(currentPage.selector_content) || "本文なし";
+                console.log("本文: " + bodyText.substring(0, 500));
+
+                // 後書き
+                const afterwordText = getLines(currentPage.selector_content_afterword);
+                if (afterwordText != "") { console.log("後書き: " + afterwordText); }
+
+                // 現在の話数
                 const epNumber = root.querySelector(currentPage.selector_number)?.innerText.trim();
-                console.log("話数: " + epNumber);
-                console.log(bodyText.substring(0, 100) + "...");
+                console.log("話数: " + epNumber);  
+            } else if (currentPage.type == "short_story") {
+                const novelTitle = root.querySelector(currentPage.selector_title)?.innerText.trim();
+                console.log("タイトル: " + novelTitle);
+
+                const novelAuthor = root.querySelector(currentPage.selector_author)?.innerText.trim();
+                console.log("著者: " + novelAuthor);
+
+                // Pタグ除去関数
+                const getLines = (selector) => {
+                    const el = root.querySelector(selector);
+                    if (!el) return "";
+
+                    // Pタグをループして1行ずつの配列にし、\nで繋ぐ
+                    return Array.from(el.querySelectorAll('p')).map(p => {
+                        const html = p.innerHTML.trim();
+                        return (html === '<br>' || html === '<br />') ? "" : html;
+                    }).join("\n");
+                };
+
+                // 前書き
+                const prefaceText = getLines(currentPage.selector_content_preface);
+                if (prefaceText != "") { console.log("前書き: " + prefaceText.substring(0, 100)); }
+
+                // 本文
+                const bodyText = getLines(currentPage.selector_content) || "本文なし";
+                console.log("本文: " + bodyText.substring(0, 300));
+
+                // 後書き
+                const afterwordText = getLines(currentPage.selector_content_afterword);
+                if (afterwordText != "") { console.log("後書き: " + afterwordText.substring(0, 100)); }
             }
         }
     } else {
