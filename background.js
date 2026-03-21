@@ -33,8 +33,8 @@ async function handleSaveAndRegister(data, sendResponse) {
         await chrome.scripting.unregisterContentScripts({ ids: [`script-${domainkey}`]})
             .catch(() => {}); // エラーが出ても無視
 
-        // ドメイン登録処理
-        await chrome.scripting.registerContentScripts([{
+        // スクリプト準備
+        const scriptConfig = {
             id: `script-${domainkey}`,
             // httpとhttpsだけ許可
             matches: [
@@ -43,7 +43,18 @@ async function handleSaveAndRegister(data, sendResponse) {
             ],
             js: ["content.js"], // content.jsを呼び出す(個別のルールはcontent.js内で識別)
             runAt: "document_end" // ページ表示後に実行
-        }]);
+        }
+
+        // 例外があれば
+        if (rules[domainkey].exclude && rules[domainkey].exclude !== "") {
+            scriptConfig.excludeMatches = [
+                `https://${domainkey}/${rules[domainkey].exclude}/*`,
+                `http://${domainkey}/${rules[domainkey].exclude}/*`
+            ];
+        }
+
+        // ドメイン登録処理
+        await chrome.scripting.registerContentScripts([scriptConfig]);
 
         // popup.jsに成功をつたえる
         sendResponse({ status: "success" });
@@ -67,7 +78,8 @@ chrome.runtime.onInstalled.addListener(async () => {
             await chrome.scripting.unregisterContentScripts({ ids: [`script-${domainkey}`]})
                 .catch(() => {}); // エラーが出ても無視
 
-            await chrome.scripting.registerContentScripts([{
+            // スクリプト準備
+            const scriptConfig = {
                 id: `script-${domainkey}`,
                 // httpとhttpsだけ許可
                 matches: [
@@ -76,7 +88,18 @@ chrome.runtime.onInstalled.addListener(async () => {
                 ],
                 js: ["content.js"], // content.jsを呼び出す(個別のルールはcontent.js内で識別)
                 runAt: "document_end" // ページ表示後に実行
-            }]);
+            }
+
+            // 例外があれば
+            if (rules[domainkey].exclude && rules[domainkey].exclude !== "") {
+                scriptConfig.excludeMatches = [
+                    `https://${domainkey}/${rules[domainkey].exclude}/*`,
+                    `http://${domainkey}/${rules[domainkey].exclude}/*`
+                ];
+            }
+
+            // ドメイン登録処理
+            await chrome.scripting.registerContentScripts([scriptConfig]);
         } catch (e) {
             console.log("エラー:" + e.message);
         } // エラー無視
