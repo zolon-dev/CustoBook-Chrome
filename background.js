@@ -28,33 +28,8 @@ async function handleSaveAndRegister(data, sendResponse) {
 
         await chrome.storage.local.set({"CustoBook_Rules": rules }); // 保存実行
 
-        // ブラウザにドメイン監視を登録
-        // 重複を避けるためいったん削除する
-        await chrome.scripting.unregisterContentScripts({ ids: [`script-${domainkey}`]})
-            .catch(() => {}); // エラーが出ても無視
-
-        // スクリプト準備
-        const scriptConfig = {
-            id: `script-${domainkey}`,
-            // httpとhttpsだけ許可
-            matches: [
-                `https://${domainkey}/*`,
-                `http://${domainkey}/*`
-            ],
-            js: ["content.js"], // content.jsを呼び出す(個別のルールはcontent.js内で識別)
-            runAt: "document_end" // ページ表示後に実行
-        }
-
-        // 例外があれば
-        if (rules[domainkey].exclude && rules[domainkey].exclude !== "") {
-            scriptConfig.excludeMatches = [
-                `https://${domainkey}/${rules[domainkey].exclude}/*`,
-                `http://${domainkey}/${rules[domainkey].exclude}/*`
-            ];
-        }
-
-        // ドメイン登録処理
-        await chrome.scripting.registerContentScripts([scriptConfig]);
+        // 登録処理
+        await registerAllScript();
 
         // popup.jsに成功をつたえる
         sendResponse({ status: "success" });
@@ -66,47 +41,67 @@ async function handleSaveAndRegister(data, sendResponse) {
 }
 
 // 拡張機能のオンオフ、更新ボタン押下時
-chrome.runtime.onInstalled.addListener(async () => {
-    // 設定を再読込
-    const result = await chrome.storage.local.get(["CustoBook_Rules"]);
-    const rules = result.CustoBook_Rules || {}; // 新規作成だったら空リスト追加
-
-    // ループしてすべてのルールを再登録
-    for (const domainkey in rules) {
-        try {
-            // あってもなくても一旦削除
-            await chrome.scripting.unregisterContentScripts({ ids: [`script-${domainkey}`]})
-                .catch(() => {}); // エラーが出ても無視
-
-            // スクリプト準備
-            const scriptConfig = {
-                id: `script-${domainkey}`,
-                // httpとhttpsだけ許可
-                matches: [
-                    `https://${domainkey}/*`,
-                    `http://${domainkey}/*`
-                ],
-                js: ["content.js"], // content.jsを呼び出す(個別のルールはcontent.js内で識別)
-                runAt: "document_end" // ページ表示後に実行
-            }
-
-            // 例外があれば
-            if (rules[domainkey].exclude && rules[domainkey].exclude !== "") {
-                scriptConfig.excludeMatches = [
-                    `https://${domainkey}/${rules[domainkey].exclude}/*`,
-                    `http://${domainkey}/${rules[domainkey].exclude}/*`
-                ];
-            }
-
-            // ドメイン登録処理
-            await chrome.scripting.registerContentScripts([scriptConfig]);
-        } catch (e) {
-            console.log("エラー:" + e.message);
-        } // エラー無視
-    }
-});
+chrome.runtime.onInstalled.addListener(() => { registerAllScript(); });
 
 // ブラウザ起動時処理
 chrome.runtime.onStartup.addListener(() => {
     console.log("ブラウザ起動時処理");
 });
+
+// 登録処理共通化
+async function registerAllScript() {
+    try {
+        // 設定を再読込
+        const result = await chrome.storage.local.get(["CustoBook_Rules"]);
+        const rules = result.CustoBook_Rules || {}; // 新規作成だったら空リスト追加
+
+        // ループしてすべてのルールを再登録
+        for (const domainkey in rules) {
+            // ID定義
+            const scriptId = `script-${domainkey}`;
+            const cssId = `css-${domainkey}`;
+
+            // ID削除
+            await chrome.scripting.unregisterContentScripts({ ids: [scriptId, cssId]})
+                .catch(() => {}); // エラーが出ても無視
+
+            // 共通URLパターン httpとhttpsだけ許可
+            const matches = [
+                `https://${domainkey}/*`,
+                `http://${domainkey}/*`
+            ];
+
+            // スクリプト登録
+            const scriptConfig = {
+                id: scriptId,
+                matches: matches,
+                js: ["content.js"], // content.jsを呼び出す(個別のルールはcontent.js内で識別)
+                runAt: "document_end" // ページ表示後に実行
+            };
+
+            // CSS登録
+            const cssConfig = {
+                id: cssId,
+                matches: matches,
+                css: ["overlay.css"],
+                runAt: "document_start" // ブラウザ描写前にかぶせる
+            };
+
+            // 例外があれば
+            if (rules[domainkey].exclude && rules[domainkey].exclude !== "") {
+                const excludes = [
+                    `https://${domainkey}/${rules[domainkey].exclude}/*`,
+                    `http://${domainkey}/${rules[domainkey].exclude}/*`
+                ];
+
+                scriptConfig.excludeMatches = excludes;
+                cssConfig.excludeMatches = excludes;
+            }
+
+            // ドメイン登録処理
+            await chrome.scripting.registerContentScripts([scriptConfig, cssConfig]);
+        }
+    } catch (e) {
+            console.log("エラー:" + e.message);
+    }
+}
