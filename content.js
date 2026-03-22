@@ -90,6 +90,19 @@
                     // とりあえず出力
                     console.table(episodes);
                 }
+
+                console.log("[CustoBook] UI構築開始");
+
+                // UIの土台
+                const uiRoot = document.createElement("div");
+                uiRoot.id = "custobook-root";
+
+                // テスト文字
+                uiRoot.innerHTML = `<h1 style="font-size: 32px; margin: 0;">CustoBook</h1>`;
+
+                // ブラウザに挿入
+                document.body.appendChild(uiRoot);
+                console.log("[CustoBook] UI構築完了");
             } else if (currentPage.type == "episode") {
                 const subTitle = root.querySelector(currentPage.selector_subtitle)?.innerText.trim();
                 console.log("サブタイトル: " + subTitle);
@@ -153,6 +166,14 @@
                 if (afterwordText != "") { console.log("後書き: " + afterwordText.substring(0, 100)); }
             }
         }
+
+        // ESCキー監視リスナー追加
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                console.log("[CustoBook] ESCキー押下");
+                document.documentElement.classList.add("custobook-off");
+            }
+        });
     } else {
         console.log("ルールが存在しないよ");
     }
