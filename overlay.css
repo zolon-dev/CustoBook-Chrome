@@ -28,10 +28,18 @@ iframe {
     z-index: 10 !important;
 
     display: flex !important;
-    background-color: #ffffff !important;
-    justify-content: center;
+    flex-direction: column !important;
+
+    background-color: #000000 !important;
     align-items: center;
-    color: #000000 !important;
+    color: #ffffff !important;
+
+    /* スクロール有効化 */
+    overflow-y: scroll !important;
+
+    /* マウス操作有効化 */
+    pointer-events: auto !important;
+    user-select: text;
 }
 
 #custobook-root * {
@@ -47,4 +55,105 @@ html.custobook-off, html.custobook-off * {
 
 html.custobook-off #custobook-root {
     display: none !important;
+}
+
+/* コンテナ周り */
+.cb-container {
+    max-width: 800px;
+    width: 100%;
+    padding: 80px 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* タイトル */
+.cb-title {
+    font-size: 2.0rem;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* 著者 */
+.cb-author {
+    font-size: 1.0rem;
+    color: #ffffff;
+    text-align: right;
+    margin-bottom: 40px;
+}
+
+/* あらすじ */
+.cb-summary {
+    white-space: pre-wrap !important;
+    font-size: 1.0rem;
+
+}
+
+/* エピソードリスト */
+.cb-episode-list {
+    width: 100%;
+    border: 1px solid #ffffff;
+    margin-top: 40px;
+    border-collapse: collapse;
+}
+
+/* エピソードインデックスタイトル */
+.cb-episode-list-title {
+    font-size: 1.0rem;
+    border: 1px solid #ffffff;
+    padding: 3px 3px 3px 10px;
+}
+
+/* エピソードリンク */
+.cb-episode-list-link {
+    color:aquamarine;
+    text-decoration: none;
+}
+
+.cb-episode-list-link:visited {
+    color: #aaaaaa;
+}
+
+.cb-episode-list-link:hover {
+    color: #ff8888;
+}
+
+.cb-episode-list-row:hover {
+    background-color: #333333;
+}
+
+/* エピソードタイトル */
+.cb-subtitle {
+    font-size: 1.7rem;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* 前書き */
+.cb-preface {
+    font-size: 1.0rem;
+    color: #ffffff;
+    padding: 20px 10px;
+    background-color: #333333;
+}
+
+/* 本文*/
+.cb-body {
+    font-size: 1.1rem;
+    color: #ffffff;
+}
+
+/* 後書き */
+.cb-afterword {
+    font-size: 1.0rem;
+    color: #ffffff;
+    padding: 20px 10px;
+    background-color: #333333;
+}
+
+/* セパレーター */
+.cb-separator {
+    color:#aaaaaa;
+    margin: 20px 0px;
 }
