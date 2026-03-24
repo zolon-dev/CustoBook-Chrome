@@ -120,7 +120,7 @@
                         </table>
                                
                         <footer style="margin-top: 100px; padding-bottom: 10px; text-align: center; color: #ffffff;">
-                            CustoBook v0.x.x - ESC to exit
+                            CustoBook v0.1.0 - ESC to exit
                         </footer>
                     </div>`;
 
@@ -180,7 +180,7 @@
 
                 htmlContent += `
                     <footer style="margin-top: 100px; padding-bottom: 10px; text-align: center; color: #ffffff;">
-                        CustoBook v0.x.x - ESC to exit
+                        CustoBook v0.1.0 - ESC to exit
                     </footer>`;
                 htmlContent += `</div>`;
                 
@@ -250,7 +250,7 @@
 
                 htmlContent += `
                     <footer style="margin-top: 100px; padding-bottom: 10px; text-align: center; color: #ffffff;">
-                        CustoBook v0.x.x - ESC to exit
+                        CustoBook v0.1.0 - ESC to exit
                     </footer>`;
                 htmlContent += `</div>`;
 

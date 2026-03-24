@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CustoBook for Chrome",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "あらゆるウェブ小説サイトを統一レイアウトで読めるプラグイン型ウェブ小説リーダー",
   "permissions": [
     "storage",
