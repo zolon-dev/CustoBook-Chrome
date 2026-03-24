@@ -62,11 +62,11 @@
             // タイトル
             if (currentPage.type == "index") {
                 const novelTitle = root.querySelector(currentPage.selector_title)?.innerText.trim();
-                console.log("タイトル: " + novelTitle);
+                // console.log("タイトル: " + novelTitle);
                 const novelAuthor = root.querySelector(currentPage.selector_author)?.innerText.trim();
                 console.log("著者: " + novelAuthor); // TODO: 「作者：」を汎用処理を維持しつつ抜く
                 const novelSummary = root.querySelector(currentPage.selector_summary)?.innerText.trim();
-                console.log("あらすじ: " + novelSummary);
+                // console.log("あらすじ: " + novelSummary);
 
                 // 目次の箱を押さえる
                 const episodes = []; // 格納変数
@@ -129,7 +129,7 @@
                 console.log("[CustoBook] UI構築完了");
             } else if (currentPage.type == "episode") {
                 const subTitle = root.querySelector(currentPage.selector_subtitle)?.textContent.trim();
-                console.log("サブタイトル: " + subTitle);
+                // console.log("サブタイトル: " + subTitle);
 
                 // Pタグ除去関数
                 const getLines = (selector) => {
@@ -145,15 +145,15 @@
 
                 // 前書き
                 const prefaceText = getLines(currentPage.selector_content_preface);
-                if (prefaceText != "") { console.log("前書き: " + prefaceText); }
+                // if (prefaceText != "") { console.log("前書き: " + prefaceText); }
 
                 // 本文
                 const bodyText = getLines(currentPage.selector_content) || "本文なし";
-                console.log("本文: " + bodyText.substring(0, 500));
+                // console.log("本文: " + bodyText.substring(0, 500));
 
                 // 後書き
                 const afterwordText = getLines(currentPage.selector_content_afterword);
-                if (afterwordText != "") { console.log("後書き: " + afterwordText); }
+                // if (afterwordText != "") { console.log("後書き: " + afterwordText); }
 
                 console.log("[CustoBook] UI構築開始");
                 
@@ -191,7 +191,7 @@
                 console.log("[CustoBook] UI構築完了");
 
                 // 現在の話数
-                const epNumber = root.querySelector(currentPage.selector_number)?.innerText.trim();
+                const epNumber = root.querySelector(currentPage.selector_number)?.textContent.trim();
                 console.log("話数: " + epNumber);  
             } else if (currentPage.type == "short_story") {
                 const novelTitle = root.querySelector(currentPage.selector_title)?.textContent.trim();
