@@ -75,7 +75,7 @@ async function registerAllScript() {
             const scriptConfig = {
                 id: scriptId,
                 matches: matches,
-                js: ["content.js"], // content.jsを呼び出す(個別のルールはcontent.js内で識別)
+                js: ["js/content.js"], // content.jsを呼び出す(個別のルールはcontent.js内で識別)
                 runAt: "document_end" // ページ表示後に実行
             };
 

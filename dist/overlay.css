@@ -1,4 +1,3 @@
-/* 変更テスト */
 html {
     visibility: hidden !important; /* 背景非表示 */
     pointer-events: none !important; /* マウスあたり判定無効 */
