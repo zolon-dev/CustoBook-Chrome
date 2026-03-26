@@ -13,7 +13,6 @@ export interface CustoBookJson {
 }
 
 // ページ詳細
-// TODO: あとで編集
 type PageConfig = EpisodeConfig | ShortStoryConfig | IndexConfig;
 
 // ページ処理共通部分
