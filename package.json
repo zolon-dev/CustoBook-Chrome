@@ -1,0 +1,27 @@
+{
+  "name": "custobook-chrome",
+  "version": "1.0.0",
+  "description": "あらゆるウェブ小説サイトを統一レイアウトで読めるプラグイン型ウェブ小説リーダー",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zolon-dev/CustoBook-Chrome.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/zolon-dev/CustoBook-Chrome/issues"
+  },
+  "homepage": "https://github.com/zolon-dev/CustoBook-Chrome#readme",
+  "devDependencies": {
+    "@types/chrome": "^0.1.38",
+    "@types/node": "^25.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
+  }
+}
