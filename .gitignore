@@ -1,2 +1,3 @@
 # 依存ライブラリ
 node_modules/
+dist/js/types/
