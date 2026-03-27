@@ -36,12 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 chrome.runtime.sendMessage({
                     type: "SAVE_AND_REGISTER",
                     payload: data
-                }, (response: { status: string; error?: string;}) => { // SWから返事
+                }, (response: { status: string; message?: string;}) => { // SWから返事
                     if (response?.status === "success") {
                         alert("登録が完了しました"); // 登録完了
                         window.close();
                     } else {
-                        alert("エラーが発生しました: " + (response?.error || "不明なエラー"));
+                        alert("エラーが発生しました: " + (response?.message || "不明なエラー"));
                     }
                 });
             } catch (error) {
