@@ -1,3 +1,5 @@
 # 依存ライブラリ
-node_modules/
-dist/js/types/
+/node_modules/
+
+# 出力ファイル
+/dist/js/
