@@ -2,16 +2,16 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
-    "rootDir": "./src",
+    "rootDir": "./",
     "outDir": "./dist/js",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "esnext",
     "target": "esnext",
-    "types": ["chrome"],
+    "types": ["chrome", "jsdom", "node"],
     // For nodejs:
-    // "lib": ["esnext"],
+    "lib": ["DOM", "DOM.Iterable", "esnext"],
     // "types": ["node"],
     // and npm install -D @types/node
 
@@ -40,5 +40,18 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "auto",
     "skipLibCheck": true,
-  }
+    "moduleResolution": "bundler",
+    "noEmit": false,
+    "esModuleInterop": true,
+    "incremental": true, // 2回目以降の型チェックを差分だけ見る
+    "tsBuildInfoFile": "./.tsbuildinfo",
+  },
+    "include": [
+    "src/**/*", // ソースコード全部
+    "test/**/*" // テストコード全部
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

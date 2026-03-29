@@ -3,3 +3,6 @@
 
 # 出力ファイル
 /dist/js/
+
+# ビルド関連
+.tsbuildinfo

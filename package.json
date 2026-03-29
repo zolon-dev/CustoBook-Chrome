@@ -4,8 +4,9 @@
   "description": "あらゆるウェブ小説サイトを統一レイアウトで読めるプラグイン型ウェブ小説リーダー",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx tsc && node strip-export.js"
+    "build": "tsc --noEmit && node build.js",
+    "check": "tsc --noEmit",
+    "test": "esbuild test/run-test.ts --bundle --platform=node --external:jsdom --outfile=test-out.js && node test-out.js && del test-out.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,10 @@
   "homepage": "https://github.com/zolon-dev/CustoBook-Chrome#readme",
   "devDependencies": {
     "@types/chrome": "^0.1.38",
+    "@types/jsdom": "^28.0.1",
     "@types/node": "^25.5.0",
+    "esbuild": "^0.27.4",
+    "jsdom": "^29.0.1",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.2"
   }
